@@ -13,7 +13,7 @@ export function Scenarios() {
               Entenda cada situação
             </h2>
             <p className="mt-4 text-base leading-relaxed text-ink-muted sm:text-lg">
-              Quatro casos comuns e o que cada um recebe de cashback.
+              Quatro valores de recarga e o cashback correspondente a cada um.
             </p>
           </div>
         </Reveal>
@@ -35,19 +35,13 @@ export function Scenarios() {
                     }`}
                   >
                     <Icon name={scenario.eligible ? 'check' : 'close'} className="h-3.5 w-3.5" />
-                    {scenario.eligible ? 'Recebe o bônus' : 'Sem bônus promocional'}
+                    {scenario.eligible ? 'Participa da promoção' : 'Fora da promoção'}
                   </p>
 
-                  <dl className="mt-4 space-y-2">
-                    {scenario.rows.map((row) => (
-                      <div key={row.label} className="rounded-xl bg-surface px-4 py-3">
-                        <dt className="text-[11px] font-bold uppercase tracking-[0.1em] text-ink-light">
-                          {row.label}
-                        </dt>
-                        <dd className="mt-0.5 text-base font-bold text-ink">{row.value}</dd>
-                      </div>
-                    ))}
-                  </dl>
+                  <p className="mt-4 text-[11px] font-bold uppercase tracking-[0.1em] text-ink-light">
+                    Recarga
+                  </p>
+                  <p className="mt-0.5 text-2xl font-extrabold text-ink">{scenario.recharge}</p>
 
                   <p className="mt-4 text-[15px] font-bold leading-snug text-ink">{scenario.result}</p>
 

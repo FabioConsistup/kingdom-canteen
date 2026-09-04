@@ -1,16 +1,12 @@
 import { Icon } from './Icon';
 import { Reveal } from './Reveal';
-import { NegativeBalanceGuidance } from './NegativeBalance';
+import { NegativeBalanceExample, NegativeBalanceGuidance } from './NegativeBalance';
 import { Simulator } from './Simulator';
 import { formatBRL, site, totalRate } from '../data/content';
 
 const EXAMPLE_RECHARGE = 150;
 const STANDARD = EXAMPLE_RECHARGE * site.standardRate;
 const BONUS = EXAMPLE_RECHARGE * site.bonusRate;
-
-const NEGATIVE_BALANCE = -40;
-const NEGATIVE_RECHARGE = 120;
-const REMAINING = NEGATIVE_RECHARGE + NEGATIVE_BALANCE;
 
 function Row({
   label,
@@ -19,14 +15,9 @@ function Row({
 }: {
   label: string;
   value: string;
-  tone?: 'default' | 'bonus' | 'muted';
+  tone?: 'default' | 'bonus';
 }) {
-  const toneClass =
-    tone === 'bonus'
-      ? 'bg-brand-orange-soft text-[#8a5310]'
-      : tone === 'muted'
-        ? 'bg-brand-red-soft text-[#a92e2e]'
-        : 'bg-surface text-ink';
+  const toneClass = tone === 'bonus' ? 'bg-brand-orange-soft text-[#8a5310]' : 'bg-surface text-ink';
 
   return (
     <div className={`flex items-center justify-between gap-4 rounded-2xl px-5 py-4 ${toneClass}`}>
@@ -39,16 +30,15 @@ function Row({
 function PositiveExample() {
   return (
     <article className="card h-full">
-      <p className="eyebrow text-brand-blue">Elegível</p>
+      <p className="eyebrow text-brand-blue">Recarga elegível</p>
       <h3 className="mt-3 text-2xl font-extrabold tracking-tight text-ink">
-        Exemplo de uma recarga promocional elegível
+        Exemplo de uma recarga promocional
       </h3>
 
       <dl className="mt-6 space-y-3">
-        <Row label="Saldo anterior" value="Conta sem saldo negativo" />
         <Row label="Recarga" value={formatBRL(EXAMPLE_RECHARGE)} />
         <Row label="Cashback padrão de 10%" value={formatBRL(STANDARD)} />
-        <Row label="Cashback bônus promocional de +10%" value={formatBRL(BONUS)} tone="bonus" />
+        <Row label="Cashback bônus de 10%" value={formatBRL(BONUS)} tone="bonus" />
         <div className="flex items-center justify-between gap-4 rounded-2xl bg-brand-blue px-5 py-5 text-white">
           <dt className="text-[15px] font-semibold">Cashback total</dt>
           <dd className="shrink-0 text-xl font-extrabold">{formatBRL(STANDARD + BONUS)}</dd>
@@ -61,44 +51,13 @@ function PositiveExample() {
       </p>
 
       <p className="mt-4 text-[15px] leading-relaxed text-ink-muted">
-        Os primeiros 10% correspondem ao cashback padrão das recargas. Os outros 10% correspondem ao bônus
-        adicional da promoção.
+        Em uma recarga promocional elegível de {formatBRL(EXAMPLE_RECHARGE)}, o total de cashback corresponde
+        a {formatBRL(STANDARD + BONUS)}. Os primeiros 10% são o cashback padrão das recargas; os outros 10%
+        são o bônus adicional da promoção.
       </p>
 
       <p className="mt-3 text-[13px] leading-relaxed text-ink-light">
         O bônus promocional está sujeito ao cumprimento de todas as condições da campanha.
-      </p>
-    </article>
-  );
-}
-
-function NegativeExample() {
-  return (
-    <article className="card h-full border-brand-red/25">
-      <p className="eyebrow text-[#a92e2e]">Não elegível ao bônus</p>
-      <h3 className="mt-3 text-2xl font-extrabold tracking-tight text-ink">
-        Exemplo com saldo negativo na conta
-      </h3>
-
-      <dl className="mt-6 space-y-3">
-        <Row label="Saldo antes da recarga" value={`-${formatBRL(Math.abs(NEGATIVE_BALANCE))}`} tone="muted" />
-        <Row label="Recarga realizada" value={formatBRL(NEGATIVE_RECHARGE)} />
-        <Row label="Saldo após compensar o negativo" value={formatBRL(REMAINING)} />
-      </dl>
-
-      <p className="mt-5 flex items-start gap-2 rounded-2xl border border-brand-red/30 bg-brand-red-soft px-5 py-4 text-[15px] font-bold text-[#a92e2e]">
-        <Icon name="alert" className="mt-0.5 h-5 w-5 shrink-0" />
-        NÃO elegível ao cashback bônus promocional
-      </p>
-
-      <p className="mt-4 text-[15px] leading-relaxed text-ink-muted">
-        Apesar de a recarga ser superior a R$ 100,00, R$ 40,00 foram utilizados para quitar o saldo negativo
-        anterior. Portanto, os R$ 120,00 do comprovante não ficaram integralmente disponíveis como saldo
-        positivo e essa recarga não participa da promoção.
-      </p>
-
-      <p className="mt-5 rounded-2xl bg-brand-blue px-5 py-4 text-[15px] font-bold leading-snug text-white">
-        Para participar da promoção, o valor integral informado no comprovante deve ficar positivo na conta.
       </p>
     </article>
   );
@@ -115,7 +74,8 @@ export function Examples() {
               Exemplos do cashback
             </h2>
             <p className="mt-4 text-base leading-relaxed text-ink-muted sm:text-lg">
-              Duas situações reais: uma recarga que recebe o bônus e outra que não recebe.
+              Como o cashback padrão e o bônus da promoção se somam, e o que fazer quando a conta está
+              negativa.
             </p>
           </div>
         </Reveal>
@@ -125,7 +85,7 @@ export function Examples() {
             <PositiveExample />
           </Reveal>
           <Reveal delay={90} className="h-full">
-            <NegativeExample />
+            <Simulator />
           </Reveal>
         </div>
 
@@ -134,7 +94,7 @@ export function Examples() {
             <NegativeBalanceGuidance />
           </Reveal>
           <Reveal delay={90} className="h-full">
-            <Simulator />
+            <NegativeBalanceExample />
           </Reveal>
         </div>
       </div>

@@ -18,7 +18,13 @@ export type IconName =
   | 'balance'
   | 'plus'
   | 'equals'
-  | 'info';
+  | 'info'
+  | 'form'
+  | 'send'
+  | 'upload'
+  | 'file'
+  | 'trash'
+  | 'spinner';
 
 const paths: Record<IconName, JSX.Element> = {
   wallet: (
@@ -105,6 +111,39 @@ const paths: Record<IconName, JSX.Element> = {
       <path d="M12 11v5.5M12 7.8h.01" />
     </>
   ),
+  form: (
+    <>
+      <rect x="4.5" y="3" width="15" height="18" rx="3" />
+      <path d="M8.5 8h7M8.5 12h7M8.5 16h4" />
+    </>
+  ),
+  send: (
+    <>
+      <path d="m20.5 3.5-9 9" />
+      <path d="M20.5 3.5 14.8 20.5l-3.3-8-8-3.3 17-5.7Z" />
+    </>
+  ),
+  upload: (
+    <>
+      <path d="M12 16V4.5" />
+      <path d="m8 8.5 4-4 4 4" />
+      <path d="M4 15v3a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3v-3" />
+    </>
+  ),
+  file: (
+    <>
+      <path d="M13.5 3H8a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3h8a3 3 0 0 0 3-3V8.5L13.5 3Z" />
+      <path d="M13.5 3v5.5H19" />
+    </>
+  ),
+  trash: (
+    <>
+      <path d="M4.5 6.5h15" />
+      <path d="M9.5 6.5V5a1.5 1.5 0 0 1 1.5-1.5h2A1.5 1.5 0 0 1 14.5 5v1.5" />
+      <path d="M6.5 6.5 7.4 19a2 2 0 0 0 2 1.9h5.2a2 2 0 0 0 2-1.9l.9-12.5" />
+    </>
+  ),
+  spinner: <path d="M12 3.5a8.5 8.5 0 1 0 8.5 8.5" />,
 };
 
 type IconProps = SVGProps<SVGSVGElement> & { name: IconName };

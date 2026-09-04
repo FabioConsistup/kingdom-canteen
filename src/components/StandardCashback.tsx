@@ -40,9 +40,8 @@ export function StandardCashback() {
                 Uma dica para aproveitar melhor sua recarga
               </p>
               <p className="mt-3 text-[15px] leading-relaxed text-ink-muted sm:text-base">
-                O sistema possui uma taxa fixa por operação de recarga. Por isso, a orientação é realizar
-                recargas de pelo menos R$ 50,00. Dessa forma, o cashback recebido ajuda a compensar o custo da
-                taxa.
+                O sistema possui uma taxa fixa por operação. Por isso, recomendamos realizar
+                recargas de pelo menos R$ 50,00, pois o cashback recebido ajuda a compensar o custo da taxa.
               </p>
             </div>
 
@@ -50,18 +49,18 @@ export function StandardCashback() {
               <span className="block text-[11px] font-bold uppercase tracking-[0.12em] text-ink-light">
                 Recarga recomendada
               </span>
-              <span className="mt-1 block text-2xl font-extrabold text-brand-blue">R$ 50 ou mais</span>
+              <span className="mt-1 block text-2xl font-extrabold text-brand-blue">A partir de R$ 50</span>
             </p>
           </aside>
         </Reveal>
 
         <Reveal delay={180}>
           <p className="mt-5 flex items-start gap-2 text-[13px] leading-relaxed text-ink-light">
-            <Icon name="alert" className="mt-0.5 h-4 w-4 shrink-0" />
+            <Icon name="info" className="mt-0.5 h-4 w-4 shrink-0" />
             <span>
               Os R$ 50,00 são apenas uma recomendação relacionada à taxa fixa — não são o valor da promoção. O
-              cashback bônus da campanha exige recarga de valor{' '}
-              <strong className="font-bold text-ink-muted">superior a R$ 100,00</strong>.
+              cashback bônus da campanha vale para recargas{' '}
+              <strong className="font-bold text-ink-muted">a partir de R$ 100,00</strong>.
             </span>
           </p>
         </Reveal>

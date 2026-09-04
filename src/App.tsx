@@ -7,6 +7,7 @@ import { Examples } from './components/Examples';
 import { Scenarios } from './components/Scenarios';
 import { Steps } from './components/Steps';
 import { Checklist } from './components/Checklist';
+import { RequestForm } from './components/RequestForm';
 import { Regulation } from './components/Regulation';
 import { Faq } from './components/Faq';
 import { FinalCta } from './components/FinalCta';
@@ -33,6 +34,7 @@ export default function App() {
         <Scenarios />
         <Steps />
         <Checklist />
+        <RequestForm />
         <Regulation />
         <Faq />
         <FinalCta />

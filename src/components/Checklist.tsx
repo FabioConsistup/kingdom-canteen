@@ -36,12 +36,21 @@ export function Checklist() {
 
         <Reveal delay={140}>
           <p className="mx-auto mt-8 max-w-3xl rounded-3xl bg-brand-blue px-6 py-6 text-center text-lg font-bold leading-snug text-white sm:text-xl">
-            Cumpriu todos os requisitos? Sua recarga poderá receber{' '}
-            <span className="text-brand-orange">+10% de cashback bônus</span>.
+            Cumpriu os requisitos?{' '}
+            <span className="text-brand-orange">Envie sua solicitação pelo formulário.</span>
           </p>
         </Reveal>
 
-        <p className="mx-auto mt-4 max-w-3xl text-center text-[13px] text-ink-light">
+        <Reveal delay={180}>
+          <div className="mt-7 text-center">
+            <a href="#solicitar" className="btn-primary w-full sm:w-auto">
+              <Icon name="form" className="h-5 w-5" />
+              Solicitar cashback bônus
+            </a>
+          </div>
+        </Reveal>
+
+        <p className="mx-auto mt-5 max-w-3xl text-center text-[13px] text-ink-light">
           A análise é feita pela equipe da Kingdom Canteen. O bônus não é creditado automaticamente.
         </p>
       </div>

@@ -1,13 +1,13 @@
 import { CashbackBreakdown } from './CashbackBreakdown';
 import { Icon } from './Icon';
-import { NegativeBalanceAlert } from './NegativeBalance';
 import { Reveal } from './Reveal';
 import { promoHighlights, site } from '../data/content';
 
-const toneClasses: Record<'blue' | 'orange' | 'red', string> = {
+const toneClasses: Record<'blue' | 'orange' | 'red' | 'white', string> = {
   blue: 'bg-white/10 text-white border border-white/15',
   orange: 'bg-brand-orange text-ink',
   red: 'bg-brand-red text-white',
+  white: 'bg-white text-brand-blue',
 };
 
 export function Promo() {
@@ -32,8 +32,8 @@ export function Promo() {
               </h2>
 
               <p className="mt-5 max-w-2xl text-base leading-relaxed text-white/85 sm:text-lg">
-                Todas as recargas já recebem 10% de cashback. Durante a promoção, recargas elegíveis acima de
-                R$ 100 recebem mais 10% de bônus, totalizando 20% de cashback.
+                Todas as recargas já recebem 10% de cashback. Durante a promoção, recargas elegíveis a partir
+                de R$ 100,00 recebem mais 10% de bônus, totalizando 20% de cashback.
               </p>
 
               <p className="mt-6 inline-flex flex-wrap items-center gap-2 rounded-2xl bg-white px-5 py-3 text-base font-extrabold text-brand-blue sm:text-lg">
@@ -45,36 +45,32 @@ export function Promo() {
                 <CashbackBreakdown variant="onblue" />
               </div>
 
-              <dl className="mt-5 grid gap-4 sm:grid-cols-3">
+              <dl className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
                 {promoHighlights.map((highlight, index) => (
-                  <Reveal key={highlight.label} delay={index * 80}>
+                  <Reveal key={highlight.label} delay={index * 70}>
                     <div className={`h-full rounded-2xl px-5 py-6 ${toneClasses[highlight.tone]}`}>
-                      <dt className="text-[13px] font-semibold uppercase tracking-[0.1em] opacity-80">
+                      <dt className="text-[13px] font-semibold uppercase leading-snug tracking-[0.08em] opacity-80">
                         {highlight.label}
                       </dt>
-                      <dd className="mt-2 text-2xl font-extrabold leading-tight sm:text-[1.6rem]">
-                        {highlight.value}
-                      </dd>
+                      <dd className="mt-2 text-2xl font-extrabold leading-tight">{highlight.value}</dd>
                     </div>
                   </Reveal>
                 ))}
               </dl>
 
               <p className="mt-6 flex items-start gap-2 text-sm leading-relaxed text-white/80">
-                <Icon name="alert" className="mt-0.5 h-4 w-4 shrink-0" />
+                <Icon name="info" className="mt-0.5 h-4 w-4 shrink-0" />
                 <span>
-                  A recarga precisa ter valor <strong className="font-bold text-white">superior</strong> a{' '}
-                  {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(
-                    site.promoThreshold,
-                  )}
-                  . Uma recarga de exatamente R$ 100,00 não recebe o bônus — a partir de R$ 100,01 o critério
-                  de valor é atendido. Promoção válida de {site.period}.
+                  Uma recarga de {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(site.promoMin)}{' '}
+                  já atende ao valor mínimo da promoção. Válida de {site.period}, mediante as demais condições
+                  da campanha.
                 </span>
               </p>
 
-              <div className="mt-8">
-                <NegativeBalanceAlert variant="onblue" />
-              </div>
+              <a href="#solicitar" className="btn-primary mt-8 w-full sm:w-auto">
+                <Icon name="form" className="h-5 w-5" />
+                Solicitar cashback bônus
+              </a>
             </div>
           </div>
         </Reveal>

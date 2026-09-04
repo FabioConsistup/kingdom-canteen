@@ -45,13 +45,13 @@ export function Hero() {
               <p className="flex items-start gap-3 text-[15px] font-semibold leading-snug text-ink">
                 <Icon name="check" className="mt-0.5 h-5 w-5 shrink-0 text-[#a4620f]" />
                 <span>
-                  Toda recarga já tem 10% de cashback. Na promoção, recargas superiores a R$ 100 ganham mais
+                  Toda recarga já tem 10% de cashback. Na promoção, recargas a partir de R$ 100 ganham mais
                   10% — <strong className="font-extrabold">20% no total</strong>.
                 </span>
               </p>
               <p className="mt-2 pl-8 text-[13px] font-medium leading-relaxed text-ink-muted">
-                Bônus válido de {site.period}, para recargas de valor superior a R$ 100,00 que permaneçam
-                integralmente como saldo positivo na conta, mediante as demais condições da promoção.
+                Bônus válido de {site.period}, para recargas de R$ 100,00 ou mais, mediante as demais
+                condições da promoção.
               </p>
             </div>
           </Reveal>
