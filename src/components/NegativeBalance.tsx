@@ -2,8 +2,8 @@ import { Icon } from './Icon';
 import { negativeBalanceFlow } from '../data/content';
 
 /**
- * Orientação para quem está com a conta negativa. O tom é de recomendação
- * prática, não de advertência.
+ * Explica a base de cálculo do bônus quando há saldo negativo. O tom é de
+ * orientação: a recarga continua participando, sobre o valor líquido positivo.
  */
 export function NegativeBalanceGuidance({ variant = 'light' }: { variant?: 'light' | 'onblue' }) {
   const onBlue = variant === 'onblue';
@@ -24,8 +24,8 @@ export function NegativeBalanceGuidance({ variant = 'light' }: { variant?: 'ligh
       </p>
 
       <p className={`mt-4 text-[15px] leading-relaxed ${onBlue ? 'text-white/85' : 'text-ink-muted'}`}>
-        Se a conta do aluno estiver com saldo negativo, recomendamos primeiro regularizar o valor pendente e,
-        somente depois, realizar a recarga que participará da promoção.
+        Se houver saldo negativo, ele será descontado do valor da recarga para fins de cálculo do cashback
+        bônus. O bônus adicional de 10% será calculado apenas sobre o valor líquido positivo restante.
       </p>
 
       <p
@@ -33,43 +33,61 @@ export function NegativeBalanceGuidance({ variant = 'light' }: { variant?: 'ligh
           onBlue ? 'bg-brand-orange text-ink' : 'bg-brand-orange-soft text-[#8a5310]'
         }`}
       >
-        Primeiro regularize o saldo negativo. Depois faça a recarga promocional.
+        O valor líquido positivo precisa ser de R$ 100,00 ou mais para receber o bônus.
       </p>
 
       <p className={`mt-4 text-[15px] leading-relaxed ${onBlue ? 'text-white/85' : 'text-ink-muted'}`}>
-        Dessa forma, o valor da nova recarga fica integralmente disponível como saldo positivo na conta.
+        Para melhor aproveitamento da promoção, recomendamos regularizar eventuais saldos negativos antes de
+        realizar a recarga promocional — assim o valor cheio da recarga entra na base do bônus.
       </p>
     </aside>
   );
 }
 
-/** Exemplo numérico da regularização seguida da recarga promocional. */
+/** Exemplo numérico da compensação do saldo negativo. */
 export function NegativeBalanceExample() {
   return (
     <article className="card h-full">
-      <p className="eyebrow text-brand-blue">Passo a passo</p>
+      <p className="eyebrow text-brand-blue">Exemplo com saldo negativo</p>
       <h3 className="mt-3 text-2xl font-extrabold tracking-tight text-ink">
-        Exemplo com saldo negativo
+        Como o bônus é calculado
       </h3>
       <p className="mt-4 text-[15px] leading-relaxed text-ink-muted">
-        Primeiro regularize os R$ 40,00 pendentes. Depois que o saldo estiver regularizado, faça uma nova
-        recarga de R$ 100,00 ou mais.
+        Os R$ 350,00 usados para compensar o saldo negativo saem da base da promoção. O bônus de 10% incide
+        somente sobre os R$ 150,00 que permanecem positivos.
       </p>
 
       <ol className="mt-6 space-y-2.5">
-        {negativeBalanceFlow.map((step, index) => (
-          <li key={step.id} className="flex items-center gap-3 rounded-2xl bg-surface px-4 py-3.5">
-            <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-brand-blue text-[13px] font-extrabold text-white">
-              {index + 1}
-            </span>
-            <span className="min-w-0 flex-1 text-[14px] font-medium text-ink-muted">{step.label}</span>
-            <span className="shrink-0 text-base font-bold text-ink">{step.value}</span>
-          </li>
-        ))}
+        {negativeBalanceFlow.map((step) => {
+          const isBonus = step.id === 'bonus';
+          const isNet = step.id === 'liquido';
+
+          return (
+            <li
+              key={step.id}
+              className={`flex items-center gap-3 rounded-2xl px-4 py-3.5 ${
+                isBonus
+                  ? 'bg-brand-orange-soft text-[#8a5310]'
+                  : isNet
+                    ? 'bg-brand-blue-soft text-brand-blue'
+                    : 'bg-surface text-ink-muted'
+              }`}
+            >
+              <span className="min-w-0 flex-1 text-[14px] font-medium">{step.label}</span>
+              <span
+                className={`shrink-0 text-base font-bold ${
+                  isBonus || isNet ? '' : 'text-ink'
+                }`}
+              >
+                {step.value}
+              </span>
+            </li>
+          );
+        })}
       </ol>
 
       <p className="mt-5 rounded-2xl bg-brand-blue px-5 py-4 text-[15px] font-bold leading-snug text-white">
-        Recomendamos separar a regularização do saldo negativo da recarga promocional.
+        O cashback padrão de 10% continua sendo calculado sobre o valor cheio da recarga: R$ 50,00.
       </p>
     </article>
   );

@@ -130,7 +130,7 @@ export const steps: Step[] = [
     icon: 'balance',
     title: 'Confira o saldo',
     description:
-      'Se houver saldo negativo, recomendamos regularizar primeiro o valor pendente e depois realizar a recarga promocional.',
+      'Se houver saldo negativo, ele é descontado da base do bônus. Recomendamos regularizá-lo antes para que o valor cheio da recarga entre no cálculo.',
   },
   {
     icon: 'recharge',
@@ -200,18 +200,18 @@ export const scenarios: Scenario[] = [
 
 /** Passo a passo de quem está com a conta negativa. */
 export const negativeBalanceFlow = [
-  { id: 'saldo-inicial', label: 'Saldo', value: '-R$ 40,00' },
-  { id: 'regularizacao', label: 'Regularização', value: 'R$ 40,00' },
-  { id: 'saldo-zerado', label: 'Saldo', value: 'R$ 0,00' },
-  { id: 'nova-recarga', label: 'Nova recarga promocional', value: 'R$ 120,00' },
-  { id: 'valor-positivo', label: 'Valor positivo da nova recarga', value: 'R$ 120,00' },
+  { id: 'saldo-anterior', label: 'Saldo anterior', value: '-R$ 350,00' },
+  { id: 'recarga', label: 'Recarga', value: 'R$ 500,00' },
+  { id: 'compensado', label: 'Saldo negativo compensado', value: '- R$ 350,00' },
+  { id: 'liquido', label: 'Valor líquido positivo', value: 'R$ 150,00' },
+  { id: 'bonus', label: 'Cashback bônus (10% do líquido)', value: 'R$ 15,00' },
 ];
 
 export const checklist: string[] = [
   'O aluno possui cadastro ativo.',
   `A recarga foi feita entre ${site.period}.`,
   'O valor da recarga é de R$ 100,00 ou mais.',
-  'Se havia saldo negativo, ele foi regularizado antes da nova recarga promocional.',
+  'Se havia saldo negativo, o valor líquido positivo da recarga é de R$ 100,00 ou mais.',
   'O formulário foi preenchido corretamente.',
   'O comprovante da recarga foi anexado.',
   'Os dados do responsável e do aluno estão corretos.',
@@ -259,11 +259,13 @@ export const regulation: RegulationItem[] = [
   },
   {
     number: '5',
-    title: 'Orientação sobre saldo negativo',
+    title: 'Saldo negativo e base de cálculo do bônus',
     paragraphs: [
-      'Se a conta do aluno estiver com saldo negativo, recomendamos primeiro regularizar o valor pendente e, somente depois, realizar a recarga que participará da promoção.',
-      'Dessa forma, o valor da nova recarga fica integralmente disponível como saldo positivo na conta.',
-      'Recomendamos separar a operação de regularização do saldo negativo da recarga promocional.',
+      'Quando a conta do aluno possuir saldo negativo antes da recarga, o valor utilizado para regularizar esse saldo não será considerado para o cálculo do cashback bônus promocional.',
+      'O cashback bônus adicional de 10% será calculado somente sobre o valor líquido positivo restante após a compensação do saldo negativo.',
+      'Para que haja direito ao cashback bônus promocional, esse valor líquido positivo deverá ser igual ou superior a R$ 100,00.',
+      'Exemplo: Saldo anterior: -R$ 350,00. Recarga: R$ 500,00. Valor líquido positivo: R$ 150,00. Cashback bônus promocional: R$ 15,00.',
+      'Recomendamos regularizar previamente eventuais saldos negativos e, posteriormente, realizar a recarga promocional.',
     ],
   },
   {
@@ -326,9 +328,24 @@ export const faq: FaqItem[] = [
       'O sistema cobra uma taxa fixa por operação. A recomendação de pelo menos R$ 50,00 ajuda a aproveitar melhor o cashback em relação a essa taxa. Para participar do bônus promocional, porém, a recarga precisa ser de R$ 100,00 ou mais.',
   },
   {
-    question: 'Estou com saldo negativo. O que devo fazer?',
+    question: 'Tenho saldo negativo. Como é calculado o bônus?',
     answer:
-      'Recomendamos primeiro regularizar o saldo negativo e, depois, realizar uma nova recarga de R$ 100,00 ou mais para participar da promoção.',
+      'O valor utilizado para quitar o saldo negativo é descontado da base da promoção. O cashback bônus de 10% é calculado somente sobre o valor líquido positivo restante.',
+  },
+  {
+    question: 'Minha conta está em -R$ 350,00 e faço uma recarga de R$ 500,00. Quanto recebo de bônus?',
+    answer:
+      'Após compensar os R$ 350,00 negativos, permanecem R$ 150,00 positivos. O cashback bônus promocional será de 10% sobre esses R$ 150,00, ou seja, R$ 15,00.',
+  },
+  {
+    question: 'Com saldo de -R$ 350,00 e recarga de R$ 450,00, participo?',
+    answer:
+      'Sim, considerando somente o critério de valor. Após compensar o saldo negativo, restam R$ 100,00 positivos, que já atendem ao mínimo da promoção. As demais condições também precisam ser cumpridas.',
+  },
+  {
+    question: 'E se sobrarem menos de R$ 100,00 positivos?',
+    answer:
+      'Nesse caso, a recarga não recebe o cashback bônus promocional, pois o valor líquido positivo precisa ser de pelo menos R$ 100,00.',
   },
   {
     question: 'Quem pode participar?',
