@@ -9,7 +9,7 @@ com a apresentação da conta digital IUUPI, o cashback padrão de 10%, o bônus
 - [Vite](https://vitejs.dev) 5
 - React 18 + TypeScript (modo `strict`)
 - Tailwind CSS 3
-- Endpoint serverless escrito com APIs web padrão (`Request`/`Response`/`FormData`)
+- Cloudflare Workers + Static Assets, com o endpoint escrito em APIs web padrão (`Request`/`Response`/`FormData`)
 - Sem dependências de UI, de animação ou de SDK de e-mail
 
 ## Como rodar
@@ -25,9 +25,11 @@ O servidor de desenvolvimento também monta o endpoint em
 Outros scripts:
 
 ```bash
-npm run build      # typecheck + build de produção em dist/
-npm run preview    # serve o build de produção (sem o endpoint)
-npm run typecheck  # apenas o TypeScript
+npm run build        # typecheck + build de produção em dist/
+npm run workers:dev  # build + runtime real do Worker (página + endpoint)
+npm run deploy       # build + wrangler deploy
+npm run preview      # serve só o build estático, sem o endpoint
+npm run typecheck    # apenas o TypeScript
 ```
 
 ## Variáveis de ambiente
@@ -59,24 +61,29 @@ telefone, remoção de caracteres de controle (header injection), tamanho do arq
 rate limiting best-effort por IP.
 
 O núcleo fica em [`server/solicitacao.ts`](server/solicitacao.ts) e é reaproveitado por
-três adaptadores:
+adaptadores finos de runtime, sem duplicar regra de negócio:
 
-- `functions/api/solicitar-cashback.ts` — Cloudflare Pages Functions;
-- `api/solicitar-cashback.ts` — Vercel / Netlify;
-- plugin de desenvolvimento em `vite.config.ts`.
+- [`worker/index.ts`](worker/index.ts) — Cloudflare Workers (produção);
+- `api/solicitar-cashback.ts` — Vercel / Netlify (opcional, não usado hoje);
+- plugin de desenvolvimento em `vite.config.ts`, para o `npm run dev` com HMR.
 
-## Deploy
+## Deploy — Cloudflare Workers + Static Assets
 
-`npm run build` gera `dist/`. Como o formulário depende de um endpoint server-side,
-o host precisa executar funções:
+A página é servida pelo Static Assets e **apenas `/api/*` executa o Worker**, graças ao
+`run_worker_first` em [`wrangler.toml`](wrangler.toml). Rotas desconhecidas caem no
+fallback de SPA.
 
-- **Cloudflare Pages** — build `npm run build`, saída `dist`, functions detectadas
-  automaticamente em `functions/`. Limite de corpo generoso (bom para os 10 MB).
-- **Vercel / Netlify** — o diretório `api/` é detectado automaticamente. Atenção:
-  planos gratuitos costumam limitar o corpo da requisição a ~4,5 MB, abaixo dos 10 MB
-  aceitos pelo formulário.
-- **Hospedagem estática (GitHub Pages, Hostinger sem PHP/Node)** — serve a página,
-  mas o formulário não funciona: não há como executar o endpoint.
+Configuração no painel do Cloudflare (Workers → Settings → Build):
+
+```
+Build command:   npm run build
+Deploy command:  npx wrangler deploy
+```
+
+Localmente, `npm run workers:dev` roda a página e o endpoint no mesmo runtime da
+produção (`workerd`), e `npm run deploy` publica a partir da sua máquina.
+
+O limite de corpo do Workers acomoda com folga os 10 MB aceitos pelo formulário.
 
 ## Estrutura
 
@@ -86,7 +93,8 @@ src/data/content.ts  todo o conteúdo textual, regras e dados da promoção
 src/components/      componentes da página
 shared/              regras de validação usadas pelo frontend e pelo backend
 server/              núcleo do endpoint de solicitação
-functions/, api/     adaptadores serverless
+worker/              entrada do Cloudflare Worker
+api/                 adaptador serverless alternativo (Vercel / Netlify)
 Midia/               arquivos originais fornecidos (logo e identidade visual)
 ```
 

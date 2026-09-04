@@ -1,9 +1,9 @@
 /**
  * Endpoint de solicitação do cashback bônus.
  *
- * Escrito com APIs web padrão (Request/Response/FormData) para rodar tanto em
- * Cloudflare Pages Functions quanto em funções serverless da Vercel/Netlify e
- * no middleware de desenvolvimento do Vite.
+ * Escrito com APIs web padrão (Request/Response/FormData) para rodar tanto no
+ * Cloudflare Workers quanto em funções serverless da Vercel/Netlify e no
+ * middleware de desenvolvimento do Vite.
  *
  * Envia dois e-mails via API HTTP do Resend:
  *   1. solicitação completa + comprovante anexado para a caixa da cantina;
