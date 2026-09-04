@@ -1,0 +1,69 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    /* compensa o header sticky ao navegar por âncoras */
+    scroll-padding-top: 5.5rem;
+  }
+
+  body {
+    @apply bg-surface text-ink font-sans antialiased;
+    overflow-x: hidden;
+  }
+
+  :focus-visible {
+    @apply outline-none ring-2 ring-brand-blue ring-offset-2 ring-offset-white rounded-md;
+  }
+}
+
+@layer components {
+  .container-page {
+    @apply mx-auto w-full max-w-content px-5 sm:px-6 lg:px-8;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3.5 text-base font-semibold
+           transition duration-200 min-h-[48px];
+  }
+
+  .btn-primary {
+    @apply btn bg-brand-orange text-ink shadow-card hover:bg-[#e58a2c] hover:shadow-card-hover;
+  }
+
+  .btn-secondary {
+    @apply btn border border-brand-blue/25 bg-white text-brand-blue hover:border-brand-blue/50 hover:bg-brand-blue-soft;
+  }
+
+  .btn-onblue {
+    @apply btn border border-white/30 bg-transparent text-white hover:bg-white/10;
+  }
+
+  .card {
+    @apply rounded-3xl border border-black/[0.06] bg-white p-6 shadow-card;
+  }
+
+  .eyebrow {
+    @apply text-xs font-bold uppercase tracking-[0.14em];
+  }
+
+  .section {
+    @apply py-16 sm:py-20 lg:py-24;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
