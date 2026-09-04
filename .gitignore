@@ -12,3 +12,6 @@ kingdom-canteen-site.zip
 .env
 .env.local
 .env.*.local
+
+# Artefatos locais do wrangler
+.wrangler/

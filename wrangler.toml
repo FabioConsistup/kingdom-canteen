@@ -1,0 +1,6 @@
+# Configuração do Cloudflare Pages.
+# As variáveis de ambiente (EMAIL_API_KEY, EMAIL_FROM, EMAIL_TO) NÃO ficam aqui:
+# são cadastradas no painel do Cloudflare como Secrets do projeto.
+name = "kingdom-canteen"
+compatibility_date = "2024-09-23"
+pages_build_output_dir = "dist"
