@@ -22,7 +22,7 @@ export function Hero() {
           <Reveal>
             <p className="inline-flex flex-wrap items-center gap-2 rounded-full bg-brand-red/10 px-4 py-2 text-[13px] font-bold text-[#a92e2e] sm:text-sm">
               <Icon name="sparkle" className="h-4 w-4" />
-              Promoção especial • 10% de cashback bônus
+              Promoção especial • +10% de cashback bônus
             </p>
           </Reveal>
 
@@ -41,14 +41,17 @@ export function Hero() {
           </Reveal>
 
           <Reveal delay={200}>
-            <div className="mt-7 flex items-start gap-3 rounded-2xl border border-brand-orange/30 bg-brand-orange-soft/60 p-4">
-              <Icon name="check" className="mt-0.5 h-5 w-5 shrink-0 text-[#a4620f]" />
-              <p className="text-[15px] font-semibold leading-snug text-ink">
-                Recargas acima de R$ 100 durante o período de cadastramento facial.
-                <span className="mt-1 block text-[13px] font-medium text-ink-muted">
-                  Válido para recargas de valor superior a R$ 100,00, de {site.period}, mediante as condições
-                  da promoção.
+            <div className="mt-7 rounded-2xl border border-brand-orange/30 bg-brand-orange-soft/60 p-4">
+              <p className="flex items-start gap-3 text-[15px] font-semibold leading-snug text-ink">
+                <Icon name="check" className="mt-0.5 h-5 w-5 shrink-0 text-[#a4620f]" />
+                <span>
+                  Toda recarga já tem 10% de cashback. Na promoção, recargas superiores a R$ 100 ganham mais
+                  10% — <strong className="font-extrabold">20% no total</strong>.
                 </span>
+              </p>
+              <p className="mt-2 pl-8 text-[13px] font-medium leading-relaxed text-ink-muted">
+                Bônus válido de {site.period}, para recargas de valor superior a R$ 100,00 que permaneçam
+                integralmente como saldo positivo na conta, mediante as demais condições da promoção.
               </p>
             </div>
           </Reveal>

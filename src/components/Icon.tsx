@@ -14,7 +14,11 @@ export type IconName =
   | 'chevron'
   | 'menu'
   | 'close'
-  | 'sparkle';
+  | 'sparkle'
+  | 'balance'
+  | 'plus'
+  | 'equals'
+  | 'info';
 
 const paths: Record<IconName, JSX.Element> = {
   wallet: (
@@ -82,6 +86,23 @@ const paths: Record<IconName, JSX.Element> = {
   sparkle: (
     <>
       <path d="M12 3.5 13.9 9l5.6 2-5.6 2-1.9 5.5L10.1 13 4.5 11l5.6-2L12 3.5Z" />
+    </>
+  ),
+  balance: (
+    <>
+      <path d="M12 4.5v15" />
+      <path d="M5 7.5h14" />
+      <path d="M5 7.5 2.8 13a2.6 2.6 0 0 0 4.4 0L5 7.5Z" />
+      <path d="M19 7.5 16.8 13a2.6 2.6 0 0 0 4.4 0L19 7.5Z" />
+      <path d="M8.5 20.5h7" />
+    </>
+  ),
+  plus: <path d="M12 5.5v13M5.5 12h13" />,
+  equals: <path d="M5 9.5h14M5 14.5h14" />,
+  info: (
+    <>
+      <circle cx="12" cy="12" r="8.5" />
+      <path d="M12 11v5.5M12 7.8h.01" />
     </>
   ),
 };

@@ -1,9 +1,12 @@
 import { Header } from './components/Header';
 import { Hero } from './components/Hero';
 import { DigitalAccount } from './components/DigitalAccount';
+import { StandardCashback } from './components/StandardCashback';
 import { Promo } from './components/Promo';
-import { CashbackExample } from './components/CashbackExample';
+import { Examples } from './components/Examples';
+import { Scenarios } from './components/Scenarios';
 import { Steps } from './components/Steps';
+import { Checklist } from './components/Checklist';
 import { Regulation } from './components/Regulation';
 import { Faq } from './components/Faq';
 import { FinalCta } from './components/FinalCta';
@@ -24,9 +27,12 @@ export default function App() {
       <main id="conteudo">
         <Hero />
         <DigitalAccount />
+        <StandardCashback />
         <Promo />
-        <CashbackExample />
+        <Examples />
+        <Scenarios />
         <Steps />
+        <Checklist />
         <Regulation />
         <Faq />
         <FinalCta />

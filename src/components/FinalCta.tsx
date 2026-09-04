@@ -30,7 +30,7 @@ export function FinalCta() {
                 </a>
               </div>
 
-              <p className="mt-6 text-[13px] text-ink-light">Cashback sujeito às condições da promoção.</p>
+              <p className="mt-6 text-[13px] text-ink-light">Cashback bônus sujeito às condições da promoção.</p>
             </div>
           </div>
         </Reveal>

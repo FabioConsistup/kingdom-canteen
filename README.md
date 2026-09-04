@@ -1,7 +1,8 @@
 # Kingdom Canteen — Landing page
 
 Landing page de página única (navegação por âncoras) da cantina escolar **Kingdom Canteen**,
-com a apresentação da conta digital IUUPI e a promoção de 10% de cashback bônus.
+com a apresentação da conta digital IUUPI, do cashback padrão de 10% e do bônus
+adicional de 10% da promoção de cadastramento facial.
 
 ## Stack
 
