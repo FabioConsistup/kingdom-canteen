@@ -14,6 +14,9 @@ com a apresentação da conta digital IUUPI, o cashback padrão de 10%, o bônus
 
 ## Como rodar
 
+**Requer Node 22 ou superior** — o Wrangler 4 não roda em versões anteriores.
+O `.nvmrc` e o `.node-version` já fixam a 22.
+
 ```bash
 npm install
 npm run dev      # http://localhost:5173
