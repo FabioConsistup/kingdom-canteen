@@ -1,18 +1,22 @@
 import { CashbackBreakdown } from './CashbackBreakdown';
 import { Icon } from './Icon';
 import { Reveal } from './Reveal';
-import { promoHighlights, site } from '../data/content';
+import { promoHighlights } from '../data/content';
 
-const toneClasses: Record<'blue' | 'orange' | 'red' | 'white', string> = {
+const toneClasses: Record<'blue' | 'orange' | 'red', string> = {
   blue: 'bg-white/10 text-white border border-white/15',
   orange: 'bg-brand-orange text-ink',
   red: 'bg-brand-red text-white',
-  white: 'bg-white text-brand-blue',
 };
 
+/**
+ * Seção única da promoção: concentra a composição 10% + 10% = 20%, os dados
+ * essenciais e os dois avisos curtos (taxa fixa e saldo negativo). O detalhe
+ * de cada regra fica no regulamento; aqui só a versão resumida.
+ */
 export function Promo() {
   return (
-    <section id="cashback" className="section bg-surface">
+    <section id="promocao" className="section bg-surface">
       <div className="container-page">
         <Reveal>
           <div className="relative overflow-hidden rounded-[2rem] bg-brand-blue px-6 py-12 text-white shadow-card sm:px-10 sm:py-14 lg:px-14">
@@ -27,45 +31,26 @@ export function Promo() {
                 Promoção de cadastramento facial
               </p>
 
-              <h2 className="mt-5 max-w-3xl text-3xl font-extrabold leading-tight tracking-tight sm:text-4xl lg:text-5xl">
-                Ganhe <span className="text-brand-orange">+10% de cashback bônus</span>
+              <h2 className="mt-5 max-w-3xl text-3xl font-extrabold leading-tight tracking-tight sm:text-4xl lg:text-[2.75rem]">
+                Cashback que rende mais durante a promoção
               </h2>
-
-              <p className="mt-5 max-w-2xl text-base leading-relaxed text-white/85 sm:text-lg">
-                Todas as recargas já recebem 10% de cashback. Durante a promoção, recargas elegíveis a partir
-                de R$ 100,00 recebem mais 10% de bônus, totalizando 20% de cashback.
-              </p>
-
-              <p className="mt-6 inline-flex flex-wrap items-center gap-2 rounded-2xl bg-white px-5 py-3 text-base font-extrabold text-brand-blue sm:text-lg">
-                10% padrão <span className="text-brand-orange">+</span> 10% bônus{' '}
-                <span className="text-brand-orange">=</span> 20%
-              </p>
 
               <div className="mt-10">
                 <CashbackBreakdown variant="onblue" />
               </div>
 
-              <dl className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              <dl className="mt-5 grid gap-4 sm:grid-cols-3">
                 {promoHighlights.map((highlight, index) => (
                   <Reveal key={highlight.label} delay={index * 70}>
-                    <div className={`h-full rounded-2xl px-5 py-6 ${toneClasses[highlight.tone]}`}>
-                      <dt className="text-[13px] font-semibold uppercase leading-snug tracking-[0.08em] opacity-80">
+                    <div className={`h-full rounded-2xl px-5 py-5 ${toneClasses[highlight.tone]}`}>
+                      <dt className="text-[12px] font-semibold uppercase tracking-[0.1em] opacity-80">
                         {highlight.label}
                       </dt>
-                      <dd className="mt-2 text-2xl font-extrabold leading-tight">{highlight.value}</dd>
+                      <dd className="mt-1.5 text-2xl font-extrabold leading-tight">{highlight.value}</dd>
                     </div>
                   </Reveal>
                 ))}
               </dl>
-
-              <p className="mt-6 flex items-start gap-2 text-sm leading-relaxed text-white/80">
-                <Icon name="info" className="mt-0.5 h-4 w-4 shrink-0" />
-                <span>
-                  Uma recarga de {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(site.promoMin)}{' '}
-                  já atende ao valor mínimo da promoção. Válida de {site.period}, mediante as demais condições
-                  da campanha.
-                </span>
-              </p>
 
               <a href="#solicitar" className="btn-primary mt-8 w-full sm:w-auto">
                 <Icon name="form" className="h-5 w-5" />
@@ -74,6 +59,53 @@ export function Promo() {
             </div>
           </div>
         </Reveal>
+
+        <div className="mt-5 grid gap-5 lg:grid-cols-2">
+          <Reveal className="h-full">
+            <aside
+              aria-labelledby="dica-recarga"
+              className="h-full rounded-3xl border border-black/[0.07] bg-white p-6 shadow-card sm:p-7"
+            >
+              <p id="dica-recarga" className="flex items-center gap-2.5 text-lg font-extrabold text-ink">
+                <Icon name="info" className="h-5 w-5 shrink-0 text-brand-blue" />
+                Dica sobre recargas
+              </p>
+              <p className="mt-3 text-[15px] leading-relaxed text-ink-muted">
+                O sistema possui uma taxa fixa por operação. Por isso, recomendamos recargas a partir de R$
+                50,00, pois o cashback ajuda a compensar essa taxa.
+              </p>
+              <p className="mt-3 text-[13px] font-semibold text-ink-light">
+                R$ 50 é uma recomendação. A promoção começa em R$ 100.
+              </p>
+            </aside>
+          </Reveal>
+
+          <Reveal delay={90} className="h-full">
+            <aside
+              aria-labelledby="saldo-negativo"
+              className="h-full rounded-3xl border border-black/[0.07] bg-white p-6 shadow-card sm:p-7"
+            >
+              <p id="saldo-negativo" className="flex items-center gap-2.5 text-lg font-extrabold text-ink">
+                <Icon name="balance" className="h-5 w-5 shrink-0 text-brand-blue" />
+                Tem saldo negativo?
+              </p>
+              <p className="mt-3 text-[15px] leading-relaxed text-ink-muted">
+                O bônus promocional é calculado sobre o valor líquido positivo que resta após a compensação do
+                saldo negativo.
+              </p>
+              <p className="mt-3 text-[15px] leading-relaxed text-ink-muted">
+                Recomendamos regularizar o saldo negativo antes da recarga promocional para aproveitar melhor
+                o bônus.
+              </p>
+              <a
+                href="#simulador"
+                className="mt-4 inline-flex text-[15px] font-semibold text-brand-blue underline decoration-brand-blue/40 underline-offset-4 hover:decoration-brand-blue"
+              >
+                Simular meu caso
+              </a>
+            </aside>
+          </Reveal>
+        </div>
       </div>
     </section>
   );

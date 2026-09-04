@@ -26,14 +26,19 @@ export const site = {
 
 export const totalRate = site.standardRate + site.bonusRate;
 
-/** Uma recarga atinge o valor mínimo da promoção a partir de R$ 100,00 (inclusive). */
-export const meetsPromoMin = (amount: number) => amount >= site.promoMin;
+/** Comunicado operacional — aparece no banner e, de propósito, também no FAQ. */
+export const announcement = {
+  eyebrow: 'Comunicado importante',
+  headline: 'A partir de 1º de outubro, não haverá mais venda fiado na cantina.',
+  body: 'Para compras pela conta digital IUUPI, mantenha saldo disponível na conta do aluno.',
+  note: 'Os pagamentos em dinheiro ou cartão continuarão disponíveis normalmente.',
+} as const;
 
 export const navLinks = [
   { label: 'Início', href: '#inicio' },
   { label: 'Conta digital', href: '#conta-digital' },
-  { label: 'Cashback', href: '#cashback' },
-  { label: 'Exemplos', href: '#exemplos' },
+  { label: 'Promoção', href: '#promocao' },
+  { label: 'Simulador', href: '#simulador' },
   { label: 'Regulamento', href: '#regulamento' },
   { label: 'Solicitar', href: '#solicitar' },
 ] as const;
@@ -72,7 +77,7 @@ export const features: Feature[] = [
   },
 ];
 
-/** Composição visual 10% + 10% = 20%. */
+/** Composição 10% + 10% = 20%. Usada uma única vez na página, na seção da promoção. */
 export type BreakdownItem = {
   label: string;
   value: string;
@@ -84,19 +89,19 @@ export const cashbackBreakdown: BreakdownItem[] = [
   {
     label: 'Cashback padrão',
     value: '10%',
-    note: 'Em todas as recargas, com ou sem promoção.',
+    note: 'Todas as recargas.',
     tone: 'neutral',
   },
   {
-    label: 'Bônus da promoção',
+    label: 'Cashback bônus',
     value: '10%',
-    note: 'Adicional, apenas em recargas elegíveis da campanha.',
+    note: 'Recargas promocionais elegíveis.',
     tone: 'bonus',
   },
   {
     label: 'Cashback total',
     value: '20%',
-    note: 'Em recargas promocionais elegíveis.',
+    note: 'Quando cumpridas as condições.',
     tone: 'total',
   },
 ];
@@ -104,14 +109,13 @@ export const cashbackBreakdown: BreakdownItem[] = [
 export type PromoHighlight = {
   value: string;
   label: string;
-  tone: 'blue' | 'orange' | 'red' | 'white';
+  tone: 'blue' | 'orange' | 'red';
 };
 
 export const promoHighlights: PromoHighlight[] = [
-  { value: site.period, label: 'Período da promoção', tone: 'blue' },
-  { value: 'R$ 100+', label: 'Recarga promocional', tone: 'orange' },
-  { value: '+10%', label: 'Cashback bônus adicional', tone: 'red' },
-  { value: '20%', label: 'Cashback total em recargas elegíveis', tone: 'white' },
+  { value: site.period, label: 'Período', tone: 'blue' },
+  { value: 'R$ 100+', label: 'Valor mínimo elegível', tone: 'orange' },
+  { value: '+10%', label: 'Bônus promocional', tone: 'red' },
 ];
 
 export type Step = {
@@ -122,99 +126,64 @@ export type Step = {
 
 export const steps: Step[] = [
   {
-    icon: 'user',
-    title: 'Tenha um cadastro ativo',
-    description: 'O aluno precisa possuir cadastro ativo no sistema da cantina.',
+    icon: 'recharge',
+    title: 'Faça sua recarga',
+    description: 'Realize uma recarga elegível durante o período da promoção.',
   },
   {
     icon: 'balance',
     title: 'Confira o saldo',
     description:
-      'Se houver saldo negativo, ele é descontado da base do bônus. Recomendamos regularizá-lo antes para que o valor cheio da recarga entre no cálculo.',
-  },
-  {
-    icon: 'recharge',
-    title: 'Faça uma recarga a partir de R$ 100',
-    description: `Realize uma recarga de R$ 100,00 ou mais durante o período de ${site.period}.`,
+      'Se houver saldo negativo, o valor utilizado para regularizá-lo será descontado da base do bônus.',
   },
   {
     icon: 'form',
-    title: 'Preencha o formulário',
+    title: 'Envie o comprovante',
     description:
-      'Informe os dados do responsável e do aluno e anexe o comprovante da recarga.',
-  },
-  {
-    icon: 'send',
-    title: 'Envie sua solicitação',
-    description: `A solicitação será enviada para a ${site.brand} e uma confirmação será encaminhada para o e-mail do responsável informado.`,
+      'Preencha o formulário com os dados do responsável e do aluno e anexe o comprovante.',
   },
   {
     icon: 'clock',
     title: 'Aguarde a análise',
-    description: `O cashback bônus adicional poderá ser creditado manualmente em até ${site.creditDeadline}, conforme as condições da promoção.`,
+    description: `O bônus poderá ser creditado manualmente em até ${site.creditDeadline}.`,
   },
 ];
 
-/** Cards comparativos da seção "Entenda cada situação". */
-export type Scenario = {
+/** Dois exemplos curtos, logo abaixo do simulador. */
+export type QuickExample = {
   id: string;
-  recharge: string;
-  result: string;
-  total?: string;
-  note: string;
-  eligible: boolean;
+  title: string;
+  rows: { label: string; value: string; highlight?: boolean }[];
+  total: string;
 };
 
-export const scenarios: Scenario[] = [
+export const quickExamples: QuickExample[] = [
   {
-    id: 'recarga-50',
-    recharge: 'R$ 50,00',
-    result: '10% de cashback padrão',
-    note: 'É o valor recomendado para melhor aproveitamento da taxa fixa de recarga, mas não atende ao valor mínimo da promoção.',
-    eligible: false,
-  },
-  {
-    id: 'recarga-99',
-    recharge: 'R$ 99,99',
-    result: '10% de cashback padrão',
-    note: 'Não participa do cashback bônus porque o valor da promoção começa em R$ 100,00.',
-    eligible: false,
-  },
-  {
-    id: 'recarga-100',
-    recharge: 'R$ 100,00',
-    result: '10% padrão + 10% bônus',
-    total: '20% de cashback total',
-    note: 'R$ 100,00 já atende ao valor mínimo da promoção, desde que todas as demais condições também sejam cumpridas.',
-    eligible: true,
-  },
-  {
-    id: 'recarga-150',
-    recharge: 'R$ 150,00',
-    result: 'R$ 15,00 padrão + R$ 15,00 bônus',
+    id: 'simples',
+    title: 'Recarga de R$ 150,00',
+    rows: [
+      { label: 'Cashback padrão', value: 'R$ 15,00' },
+      { label: 'Cashback bônus', value: 'R$ 15,00', highlight: true },
+    ],
     total: 'R$ 30,00 de cashback',
-    note: 'Em uma recarga promocional elegível de R$ 150,00, o total de cashback corresponde a R$ 30,00.',
-    eligible: true,
+  },
+  {
+    id: 'saldo-negativo',
+    title: 'Saldo de -R$ 350,00 e recarga de R$ 500,00',
+    rows: [
+      { label: 'Valor líquido positivo', value: 'R$ 150,00' },
+      { label: 'Cashback bônus (10% do líquido)', value: 'R$ 15,00', highlight: true },
+    ],
+    total: 'R$ 65,00 de cashback total',
   },
 ];
 
-/** Passo a passo de quem está com a conta negativa. */
-export const negativeBalanceFlow = [
-  { id: 'saldo-anterior', label: 'Saldo anterior', value: '-R$ 350,00' },
-  { id: 'recarga', label: 'Recarga', value: 'R$ 500,00' },
-  { id: 'compensado', label: 'Saldo negativo compensado', value: '- R$ 350,00' },
-  { id: 'liquido', label: 'Valor líquido positivo', value: 'R$ 150,00' },
-  { id: 'bonus', label: 'Cashback bônus (10% do líquido)', value: 'R$ 15,00' },
-];
-
-export const checklist: string[] = [
-  'O aluno possui cadastro ativo.',
-  `A recarga foi feita entre ${site.period}.`,
-  'O valor da recarga é de R$ 100,00 ou mais.',
-  'Se havia saldo negativo, o valor líquido positivo da recarga é de R$ 100,00 ou mais.',
-  'O formulário foi preenchido corretamente.',
-  'O comprovante da recarga foi anexado.',
-  'Os dados do responsável e do aluno estão corretos.',
+/** Conferência rápida exibida dentro do formulário, antes do botão de envio. */
+export const preSubmitChecklist: string[] = [
+  'Cadastro ativo',
+  'Recarga dentro do período',
+  'Valor elegível',
+  'Dados e comprovante corretos',
 ];
 
 export type RegulationItem = {
@@ -299,81 +268,41 @@ export type FaqItem = { question: string; answer: string };
 
 export const faq: FaqItem[] = [
   {
-    question: 'As recargas já têm cashback?',
+    question: 'Todas as recargas têm cashback?',
     answer:
-      'Sim. As recargas normalmente já recebem 10% de cashback. Durante a promoção, recargas que cumpram todas as condições recebem mais 10% de cashback bônus.',
+      'Sim. As recargas já recebem 10% de cashback. Durante a promoção, recargas que cumpram todas as condições recebem mais 10% de cashback bônus.',
   },
   {
-    question: 'Então uma recarga elegível recebe 20%?',
-    answer:
-      'Sim. Em uma recarga promocional elegível, são 10% de cashback padrão mais 10% de cashback bônus, totalizando 20%.',
-  },
-  {
-    question: 'O cashback padrão e o bônus são a mesma coisa?',
-    answer:
-      'Não. O cashback padrão de 10% já faz parte das recargas. O bônus da campanha acrescenta mais 10% às recargas que cumprirem todas as condições.',
-  },
-  {
-    question: 'Qual é o valor mínimo para o bônus promocional?',
+    question: 'Qual o valor mínimo da promoção?',
     answer: 'A promoção é válida para recargas a partir de R$ 100,00.',
   },
   {
-    question: 'Uma recarga de R$ 100,00 participa da promoção?',
+    question: 'Tenho saldo negativo. Como funciona o bônus?',
     answer:
-      'Sim. R$ 100,00 já atende ao valor mínimo da promoção, desde que as demais condições também sejam cumpridas.',
+      'O valor utilizado para quitar o saldo negativo é descontado da base da promoção. O cashback bônus de 10% é calculado somente sobre o valor líquido positivo restante, que precisa ser de pelo menos R$ 100,00.',
   },
   {
-    question: 'Por que vocês recomendam recargas de pelo menos R$ 50?',
-    answer:
-      'O sistema cobra uma taxa fixa por operação. A recomendação de pelo menos R$ 50,00 ajuda a aproveitar melhor o cashback em relação a essa taxa. Para participar do bônus promocional, porém, a recarga precisa ser de R$ 100,00 ou mais.',
-  },
-  {
-    question: 'Tenho saldo negativo. Como é calculado o bônus?',
-    answer:
-      'O valor utilizado para quitar o saldo negativo é descontado da base da promoção. O cashback bônus de 10% é calculado somente sobre o valor líquido positivo restante.',
-  },
-  {
-    question: 'Minha conta está em -R$ 350,00 e faço uma recarga de R$ 500,00. Quanto recebo de bônus?',
-    answer:
-      'Após compensar os R$ 350,00 negativos, permanecem R$ 150,00 positivos. O cashback bônus promocional será de 10% sobre esses R$ 150,00, ou seja, R$ 15,00.',
-  },
-  {
-    question: 'Com saldo de -R$ 350,00 e recarga de R$ 450,00, participo?',
-    answer:
-      'Sim, considerando somente o critério de valor. Após compensar o saldo negativo, restam R$ 100,00 positivos, que já atendem ao mínimo da promoção. As demais condições também precisam ser cumpridas.',
-  },
-  {
-    question: 'E se sobrarem menos de R$ 100,00 positivos?',
-    answer:
-      'Nesse caso, a recarga não recebe o cashback bônus promocional, pois o valor líquido positivo precisa ser de pelo menos R$ 100,00.',
-  },
-  {
-    question: 'Quem pode participar?',
-    answer:
-      'Todos os alunos com cadastro ativo no sistema da cantina, desde que sejam cumpridas as demais condições da promoção.',
-  },
-  {
-    question: 'Como envio meu comprovante?',
+    question: 'Como envio o comprovante?',
     answer:
       'Preencha o formulário disponível nesta página com os dados do responsável e do aluno e anexe o comprovante da recarga.',
   },
   {
-    question: 'Receberei uma confirmação?',
-    answer:
-      'Sim. Após o envio bem-sucedido do formulário, uma confirmação será encaminhada para o e-mail do responsável informado.',
-  },
-  {
-    question: 'Até quando posso realizar a recarga?',
-    answer: `As recargas elegíveis precisam ser realizadas entre ${site.period}.`,
-  },
-  {
-    question: 'Quanto tempo leva para o bônus entrar na conta?',
+    question: 'Quanto tempo leva para receber o bônus?',
     answer:
       'O crédito poderá ser realizado em até 7 dias úteis após o envio da solicitação, conforme as condições da promoção.',
   },
   {
+    question: 'Até quando vale a promoção?',
+    answer: `As recargas elegíveis precisam ser realizadas entre ${site.period}.`,
+  },
+  {
     question: 'Meu filho ainda não possui cadastro. O que devo fazer?',
     answer: 'Os pais ou responsáveis deverão realizar o cadastro do aluno por meio do aplicativo IUUPI.',
+  },
+  {
+    question: 'A cantina continuará vendendo fiado?',
+    answer:
+      'Não. A partir de 1º de outubro, não serão mais realizadas vendas fiado na cantina. Para compras pela conta digital IUUPI, recomendamos manter saldo disponível na conta do aluno. Pagamentos em dinheiro e cartão continuarão disponíveis normalmente.',
   },
 ];
 

@@ -9,7 +9,7 @@ import {
 } from 'react';
 import { Icon } from './Icon';
 import { Reveal } from './Reveal';
-import { site } from '../data/content';
+import { preSubmitChecklist, site } from '../data/content';
 import {
   ALLOWED_EXTENSIONS,
   ALLOWED_MIME_TYPES,
@@ -330,6 +330,26 @@ export function RequestForm() {
                     Os dados informados serão utilizados apenas para processar esta solicitação de cashback
                     bônus.
                   </p>
+                </div>
+
+                <div className="mt-6 rounded-2xl border border-black/[0.07] bg-surface p-5">
+                  <p className="text-[13px] font-bold uppercase tracking-[0.12em] text-brand-blue">
+                    Antes de enviar
+                  </p>
+                  <ul className="mt-3 grid gap-2 sm:grid-cols-2">
+                    {preSubmitChecklist.map((item) => (
+                      <li key={item} className="flex items-center gap-2 text-[15px] text-ink">
+                        <Icon name="check" className="h-4 w-4 shrink-0 text-brand-blue" />
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                  <a
+                    href="#regulamento"
+                    className="mt-3 inline-flex text-[14px] font-semibold text-brand-blue underline decoration-brand-blue/40 underline-offset-4 hover:decoration-brand-blue"
+                  >
+                    Ver regulamento completo
+                  </a>
                 </div>
 
                 {formError && (

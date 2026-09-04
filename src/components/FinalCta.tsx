@@ -13,11 +13,10 @@ export function FinalCta() {
             />
             <div className="relative mx-auto max-w-2xl">
               <h2 className="text-3xl font-extrabold tracking-tight text-ink sm:text-4xl">
-                Já fez sua recarga elegível?
+                Já fez sua recarga?
               </h2>
               <p className="mt-4 text-base leading-relaxed text-ink-muted sm:text-lg">
-                Preencha o formulário desta página com os dados do responsável e do aluno e anexe o
-                comprovante da recarga.
+                Envie o comprovante para solicitar o cashback bônus.
               </p>
 
               <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
@@ -26,13 +25,10 @@ export function FinalCta() {
                   Enviar comprovante
                 </a>
                 <a href="#regulamento" className="btn-secondary w-full sm:w-auto">
-                  Ler regulamento
+                  Consultar regulamento
                 </a>
               </div>
 
-              <p className="mt-6 text-[13px] text-ink-light">
-                Cashback bônus sujeito às condições da promoção.
-              </p>
             </div>
           </div>
         </Reveal>

@@ -1,12 +1,10 @@
 import { Header } from './components/Header';
+import { Announcement } from './components/Announcement';
 import { Hero } from './components/Hero';
 import { DigitalAccount } from './components/DigitalAccount';
-import { StandardCashback } from './components/StandardCashback';
 import { Promo } from './components/Promo';
-import { Examples } from './components/Examples';
-import { Scenarios } from './components/Scenarios';
+import { SimulatorSection } from './components/SimulatorSection';
 import { Steps } from './components/Steps';
-import { Checklist } from './components/Checklist';
 import { RequestForm } from './components/RequestForm';
 import { Regulation } from './components/Regulation';
 import { Faq } from './components/Faq';
@@ -24,16 +22,14 @@ export default function App() {
       </a>
 
       <Header />
+      <Announcement />
 
       <main id="conteudo">
         <Hero />
         <DigitalAccount />
-        <StandardCashback />
         <Promo />
-        <Examples />
-        <Scenarios />
+        <SimulatorSection />
         <Steps />
-        <Checklist />
         <RequestForm />
         <Regulation />
         <Faq />
