@@ -16,7 +16,7 @@ const toneClasses: Record<'blue' | 'orange' | 'red', string> = {
  */
 export function Promo() {
   return (
-    <section id="promocao" className="section bg-surface">
+    <section id="cashback" className="section bg-surface">
       <div className="container-page">
         <Reveal>
           <div className="relative overflow-hidden rounded-[2rem] bg-brand-blue px-6 py-12 text-white shadow-card sm:px-10 sm:py-14 lg:px-14">
@@ -32,7 +32,7 @@ export function Promo() {
               </p>
 
               <h2 className="mt-5 max-w-3xl text-3xl font-extrabold leading-tight tracking-tight sm:text-4xl lg:text-[2.75rem]">
-                Cashback que rende mais durante a promoção
+                Seu saldo pode render mais
               </h2>
 
               <div className="mt-10">
@@ -52,10 +52,21 @@ export function Promo() {
                 ))}
               </dl>
 
-              <a href="#solicitar" className="btn-primary mt-8 w-full sm:w-auto">
-                <Icon name="form" className="h-5 w-5" />
-                Solicitar cashback bônus
-              </a>
+              <p className="mt-6 inline-flex flex-wrap items-center gap-2 rounded-2xl bg-white/10 px-5 py-3 text-[15px] font-semibold text-white sm:text-base">
+                Recarga de R$ 150,00
+                <Icon name="chevron" className="h-4 w-4 -rotate-90" />
+                <span className="font-extrabold text-brand-orange">R$ 15,00 de cashback bônus</span>
+              </p>
+
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+                <a href="#solicitar" className="btn-primary w-full sm:w-auto">
+                  <Icon name="form" className="h-5 w-5" />
+                  Solicitar cashback bônus
+                </a>
+                <a href="#regulamento" className="btn-onblue w-full sm:w-auto">
+                  Consultar regras da promoção
+                </a>
+              </div>
             </div>
           </div>
         </Reveal>

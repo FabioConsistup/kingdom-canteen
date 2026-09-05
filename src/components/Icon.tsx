@@ -24,7 +24,9 @@ export type IconName =
   | 'upload'
   | 'file'
   | 'trash'
-  | 'spinner';
+  | 'spinner'
+  | 'apple'
+  | 'android';
 
 const paths: Record<IconName, JSX.Element> = {
   wallet: (
@@ -144,6 +146,20 @@ const paths: Record<IconName, JSX.Element> = {
     </>
   ),
   spinner: <path d="M12 3.5a8.5 8.5 0 1 0 8.5 8.5" />,
+  apple: (
+    <>
+      <path d="M16.3 12.6c0-2.3 1.9-3.4 2-3.5-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.2-2.8.9-3.5.9s-1.8-.8-3-.8c-1.5 0-2.9.9-3.7 2.3-1.6 2.7-.4 6.8 1.1 9 .8 1.1 1.7 2.3 2.9 2.3 1.2 0 1.6-.7 3-.7s1.8.7 3 .7 2-1.1 2.8-2.2c.9-1.2 1.2-2.4 1.2-2.5 0 0-2.4-.9-2.4-3.7Z" />
+      <path d="M14.2 5.9c.6-.8 1-1.9.9-3-.9 0-2 .6-2.6 1.4-.6.7-1.1 1.8-1 2.8 1 .1 2-.5 2.7-1.2Z" />
+    </>
+  ),
+  android: (
+    <>
+      <path d="M4.5 10.5h15V17a2 2 0 0 1-2 2h-11a2 2 0 0 1-2-2v-6.5Z" />
+      <path d="M4.5 10.5a7.5 7.5 0 0 1 15 0" />
+      <path d="m7.4 6.6-1.3-2M16.6 6.6l1.3-2" />
+      <path d="M9.5 8.4h.01M14.5 8.4h.01" />
+    </>
+  ),
 };
 
 type IconProps = SVGProps<SVGSVGElement> & { name: IconName };

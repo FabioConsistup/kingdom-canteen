@@ -41,11 +41,11 @@ export function Hero() {
 
           <Reveal delay={200}>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <a href="#promocao" className="btn-primary w-full sm:w-auto">
+              <a href="#cashback" className="btn-primary w-full sm:w-auto">
                 Ver promoção
               </a>
-              <a href="#conta-digital" className="btn-secondary w-full sm:w-auto">
-                Conhecer a conta digital
+              <a href="#iuupi" className="btn-secondary w-full sm:w-auto">
+                Conhecer o Iuupi
               </a>
             </div>
           </Reveal>

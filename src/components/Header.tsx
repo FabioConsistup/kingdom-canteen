@@ -61,7 +61,7 @@ export function Header() {
         </nav>
 
         <div className="flex items-center gap-2">
-          <a href="#promocao" className="btn-primary hidden px-5 py-2.5 text-sm sm:inline-flex">
+          <a href="#cashback" className="btn-primary hidden px-5 py-2.5 text-sm sm:inline-flex">
             Ver promoção
           </a>
           <button
@@ -95,7 +95,7 @@ export function Header() {
                 {link.label}
               </a>
             ))}
-            <a href="#promocao" onClick={() => setMenuOpen(false)} className="btn-primary mt-2 w-full sm:hidden">
+            <a href="#cashback" onClick={() => setMenuOpen(false)} className="btn-primary mt-2 w-full sm:hidden">
               Ver promoção
             </a>
           </nav>

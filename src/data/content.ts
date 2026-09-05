@@ -36,12 +36,66 @@ export const announcement = {
 
 export const navLinks = [
   { label: 'Início', href: '#inicio' },
-  { label: 'Conta digital', href: '#conta-digital' },
-  { label: 'Promoção', href: '#promocao' },
-  { label: 'Simulador', href: '#simulador' },
+  { label: 'Autoatendimento', href: '#autoatendimento' },
+  { label: 'Iuupi', href: '#iuupi' },
+  { label: 'Cashback', href: '#cashback' },
   { label: 'Regulamento', href: '#regulamento' },
   { label: 'Solicitar', href: '#solicitar' },
 ] as const;
+
+/** Seção de autoatendimento e reconhecimento facial. */
+export const selfService = {
+  title: 'Mais agilidade na hora do intervalo',
+  intro:
+    'Alunos cadastrados poderão usar os tablets de autoatendimento da Kingdom Canteen e concluir a compra por reconhecimento facial — uma forma prática de identificar a conta do aluno no sistema da cantina.',
+  points: [
+    {
+      icon: 'calendar' as IconName,
+      title: 'Cadastramento facial a partir de 08/09',
+      description: 'O cadastro da facial é feito na própria cantina, durante o período da campanha.',
+    },
+    {
+      icon: 'user' as IconName,
+      title: 'Para alunos já cadastrados',
+      description: 'O recurso fica disponível para alunos previamente cadastrados no sistema da cantina.',
+    },
+    {
+      icon: 'wallet' as IconName,
+      title: 'Sem venda fiado a partir de outubro',
+      description: 'Mantenha saldo na conta do aluno para as compras pela conta digital.',
+    },
+    {
+      icon: 'check' as IconName,
+      title: 'Dinheiro e cartão seguem normalmente',
+      description: 'As formas de pagamento presenciais continuam disponíveis como sempre.',
+    },
+  ],
+} as const;
+
+/** Aplicativo Iuupi: textos e links das lojas. */
+export const iuupiApp = {
+  title: 'Tenha a cantina na palma da mão',
+  intro:
+    'O Iuupi é o aplicativo utilizado pela Kingdom Canteen para facilitar a rotina dos alunos e responsáveis.',
+  ctaTitle: 'Ainda não tem cadastro?',
+  ctaText:
+    'Baixe o Iuupi, crie sua conta e cadastre o aluno para começar a utilizar os serviços digitais da cantina.',
+  note: 'Para realizar o cadastro facial e participar das ações promocionais da cantina, o aluno deverá estar previamente cadastrado no sistema.',
+  stores: [
+    {
+      id: 'ios',
+      label: 'Baixar para iPhone',
+      icon: 'apple' as IconName,
+      href: 'https://apps.apple.com/br/app/iuupi/id6758313721',
+    },
+    {
+      id: 'android',
+      label: 'Baixar para Android',
+      icon: 'android' as IconName,
+      href: 'https://play.google.com/store/apps/details?id=com.iuupi.iuupiapp&pcampaignid=web_share',
+    },
+  ],
+} as const;
 
 export type Feature = {
   icon: IconName;
@@ -52,28 +106,29 @@ export type Feature = {
 export const features: Feature[] = [
   {
     icon: 'wallet',
-    title: 'Consultar saldo',
-    description: 'Veja o saldo disponível na conta do aluno.',
+    title: 'Acompanhar o saldo',
+    description: 'Veja quanto o aluno tem disponível na conta da cantina.',
   },
   {
     icon: 'history',
-    title: 'Histórico de consumo',
-    description: 'Acompanhe as compras realizadas na cantina escolar.',
-  },
-  {
-    icon: 'calendar',
-    title: 'Pedidos agendados',
-    description: 'Organize pedidos antecipadamente para tornar o recreio mais prático.',
+    title: 'Consultar o consumo',
+    description: 'Acompanhe as compras e as movimentações da conta.',
   },
   {
     icon: 'recharge',
-    title: 'Recargas online',
-    description: 'Adicione saldo à conta digital sem precisar realizar pagamentos presenciais.',
+    title: 'Fazer recargas online',
+    description: 'Adicione saldo sem precisar de pagamento presencial.',
   },
   {
     icon: 'shield',
-    title: 'Limites de consumo',
-    description: 'Acompanhe os limites configurados para o consumo do aluno.',
+    title: 'Gerenciar a conta digital',
+    description: 'Administre os dados e as configurações da conta da cantina.',
+  },
+  {
+    icon: 'sparkle',
+    title: 'Habilitar os recursos digitais',
+    description:
+      'Deixe o aluno apto a usar o autoatendimento por reconhecimento facial na cantina.',
   },
 ];
 

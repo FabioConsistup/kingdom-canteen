@@ -49,7 +49,7 @@ export function Regulation() {
             <div className="max-w-2xl">
               <p className="eyebrow text-brand-blue">Transparência</p>
               <h2 className="mt-3 text-3xl font-extrabold tracking-tight text-ink sm:text-4xl">
-                Regulamento da promoção
+                Regulamento – Cashback Bônus de 10%
               </h2>
               <p className="mt-4 text-base leading-relaxed text-ink-muted sm:text-lg">
                 Todas as condições da promoção de cashback bônus, na íntegra.

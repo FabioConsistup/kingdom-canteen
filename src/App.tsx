@@ -1,6 +1,7 @@
 import { Header } from './components/Header';
 import { Announcement } from './components/Announcement';
 import { Hero } from './components/Hero';
+import { SelfService } from './components/SelfService';
 import { DigitalAccount } from './components/DigitalAccount';
 import { Promo } from './components/Promo';
 import { SimulatorSection } from './components/SimulatorSection';
@@ -26,6 +27,7 @@ export default function App() {
 
       <main id="conteudo">
         <Hero />
+        <SelfService />
         <DigitalAccount />
         <Promo />
         <SimulatorSection />
