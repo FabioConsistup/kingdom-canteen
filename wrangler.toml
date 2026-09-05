@@ -4,11 +4,21 @@
 #   Build command  -> npm run build
 #   Deploy command -> npx wrangler deploy
 #
-# EMAIL_API_KEY, EMAIL_FROM e EMAIL_TO NÃO ficam aqui: são cadastradas no
-# painel do Cloudflare em Settings -> Variables and Secrets (como Secret).
+# SEGREDOS NÃO FICAM AQUI. A EMAIL_API_KEY (Resend) é cadastrada apenas no
+# dashboard, em Settings -> Variables and Secrets, como Secret. Só as
+# variáveis não sensíveis abaixo são versionadas.
 name = "kingdom-canteen"
 main = "./worker/index.ts"
 compatibility_date = "2026-09-01"
+
+# Preserva as variáveis e os secrets definidos pelo dashboard quando um
+# `wrangler deploy` roda pelo Workers Builds. Sem isso, cada deploy publica
+# uma versão sem a EMAIL_API_KEY e o endpoint responde 503.
+keep_vars = true
+
+[vars]
+EMAIL_FROM = "Kingdom Canteen <bonus@kingdomcanteen.cloud>"
+EMAIL_TO = "bonus@kingdomcanteen.cloud"
 
 [assets]
 directory = "./dist"
@@ -16,3 +26,9 @@ binding = "ASSETS"
 not_found_handling = "single-page-application"
 # Só as rotas de API executam o Worker; o restante é servido como asset estático.
 run_worker_first = ["/api/*"]
+
+# Mantém os logs ligados após cada deploy — sem isso a configuração do
+# dashboard pode ser sobrescrita.
+[observability]
+enabled = true
+head_sampling_rate = 1
