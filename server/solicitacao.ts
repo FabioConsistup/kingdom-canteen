@@ -37,10 +37,55 @@ const RESEND_ENDPOINT = 'https://api.resend.com/emails';
 /** Folga sobre o limite do arquivo para acomodar os campos de texto do multipart. */
 const MAX_BODY_BYTES = MAX_FILE_BYTES + 1024 * 1024;
 
-const json = (body: unknown, status: number) =>
+/* ------------------------------------------------------------------ *
+ * CORS
+ *
+ * O frontend é servido pela Hostinger e a API roda no Cloudflare Worker,
+ * então toda requisição é cross-origin. A lista é explícita — nunca "*".
+ * ------------------------------------------------------------------ */
+
+const ALLOWED_ORIGINS = new Set([
+  'https://kingdomcanteen.cloud',
+  'https://www.kingdomcanteen.cloud',
+  // Enquanto o certificado da Hostinger não estiver ativo, o site pode ser
+  // acessado por http. Remover estas duas linhas quando o SSL estiver no ar.
+  'http://kingdomcanteen.cloud',
+  'http://www.kingdomcanteen.cloud',
+]);
+
+/** Qualquer porta de localhost/127.0.0.1, apenas para desenvolvimento. */
+const LOCALHOST_RE = /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/;
+
+const isAllowedOrigin = (origin: string) =>
+  ALLOWED_ORIGINS.has(origin) || LOCALHOST_RE.test(origin);
+
+/**
+ * Cabeçalhos CORS para a origem da requisição. Origem não permitida recebe
+ * resposta sem `Access-Control-Allow-Origin` — o navegador é quem bloqueia.
+ */
+export function corsHeaders(request: Request): Record<string, string> {
+  const origin = request.headers.get('origin') ?? '';
+  const headers: Record<string, string> = { vary: 'Origin' };
+
+  if (origin && isAllowedOrigin(origin)) {
+    headers['access-control-allow-origin'] = origin;
+    headers['access-control-allow-methods'] = 'POST, OPTIONS';
+    headers['access-control-allow-headers'] = 'Content-Type';
+    headers['access-control-max-age'] = '86400';
+  }
+
+  return headers;
+}
+
+/** Toda resposta da API passa por aqui, então todo status carrega o CORS. */
+export const json = (body: unknown, status: number, cors: Record<string, string> = {}) =>
   new Response(JSON.stringify(body), {
     status,
-    headers: { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store' },
+    headers: {
+      'content-type': 'application/json; charset=utf-8',
+      'cache-control': 'no-store',
+      ...cors,
+    },
   });
 
 /* ------------------------------------------------------------------ *
@@ -250,8 +295,15 @@ async function sendEmail(apiKey: string, payload: ResendPayload) {
  * ------------------------------------------------------------------ */
 
 export async function handleSolicitacao(request: Request, env: Env): Promise<Response> {
+  const cors = corsHeaders(request);
+
+  // Preflight: o navegador pergunta antes do POST cross-origin.
+  if (request.method === 'OPTIONS') {
+    return new Response(null, { status: 204, headers: { ...cors, 'cache-control': 'no-store' } });
+  }
+
   if (request.method !== 'POST') {
-    return json({ error: 'Método não permitido.' }, 405);
+    return json({ error: 'Método não permitido.' }, 405, cors);
   }
 
   const ip =
@@ -260,19 +312,19 @@ export async function handleSolicitacao(request: Request, env: Env): Promise<Res
     'desconhecido';
 
   if (isRateLimited(ip)) {
-    return json({ error: 'Muitas solicitações em pouco tempo. Tente novamente mais tarde.' }, 429);
+    return json({ error: 'Muitas solicitações em pouco tempo. Tente novamente mais tarde.' }, 429, cors);
   }
 
   const declaredLength = Number(request.headers.get('content-length') ?? '0');
   if (declaredLength > MAX_BODY_BYTES) {
-    return json({ error: 'O arquivo enviado é maior que o limite de 10 MB.' }, 413);
+    return json({ error: 'O arquivo enviado é maior que o limite de 10 MB.' }, 413, cors);
   }
 
   let form: FormData;
   try {
     form = await request.formData();
   } catch {
-    return json({ error: 'Não foi possível ler os dados enviados.' }, 400);
+    return json({ error: 'Não foi possível ler os dados enviados.' }, 400, cors);
   }
 
   // --- campos de texto -------------------------------------------------
@@ -318,7 +370,7 @@ export async function handleSolicitacao(request: Request, env: Env): Promise<Res
   }
 
   if (Object.keys(errors).length > 0) {
-    return json({ error: 'Verifique os campos destacados.', fields: errors }, 400);
+    return json({ error: 'Verifique os campos destacados.', fields: errors }, 400, cors);
   }
 
   const fields = values as SolicitacaoFields;
@@ -333,13 +385,18 @@ export async function handleSolicitacao(request: Request, env: Env): Promise<Res
     return json(
       { error: 'O envio de solicitações está temporariamente indisponível. Tente novamente mais tarde.' },
       503,
+      cors,
     );
   }
 
   // O e-mail do responsável já passou por isValidEmail; a checagem extra
   // evita qualquer uso de valor inesperado como destinatário.
   if (!isValidEmail(fields.responsavelEmail)) {
-    return json({ error: 'Verifique os campos destacados.', fields: { responsavelEmail: 'Informe um e-mail válido.' } }, 400);
+    return json(
+      { error: 'Verifique os campos destacados.', fields: { responsavelEmail: 'Informe um e-mail válido.' } },
+      400,
+      cors,
+    );
   }
 
   const attachmentContent = bytes ? toBase64(bytes) : '';
@@ -362,6 +419,7 @@ export async function handleSolicitacao(request: Request, env: Env): Promise<Res
     return json(
       { error: 'Não foi possível enviar sua solicitação agora. Verifique os dados e tente novamente.' },
       502,
+      cors,
     );
   }
 
@@ -381,5 +439,5 @@ export async function handleSolicitacao(request: Request, env: Env): Promise<Res
     console.error('[solicitacao] falha ao enviar confirmação ao responsável:', error);
   }
 
-  return json({ ok: true, confirmationSent }, 200);
+  return json({ ok: true, confirmationSent }, 200, cors);
 }

@@ -7,7 +7,7 @@ dist
 
 # Material de divulgação de terceiros (IUUPI) — não republicar
 Midia/Iuupi/
-kingdom-canteen-site.zip
+kingdom-canteen-*.zip
 
 .env
 .env.local

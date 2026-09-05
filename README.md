@@ -9,7 +9,7 @@ com a apresentação da conta digital IUUPI, o cashback padrão de 10%, o bônus
 - [Vite](https://vitejs.dev) 5
 - React 18 + TypeScript (modo `strict`)
 - Tailwind CSS 3
-- Cloudflare Workers + Static Assets, com o endpoint escrito em APIs web padrão (`Request`/`Response`/`FormData`)
+- Frontend estático (Hostinger) + API no Cloudflare Worker, escrita em APIs web padrão (`Request`/`Response`/`FormData`)
 - Sem dependências de UI, de animação ou de SDK de e-mail
 
 ## Como rodar
@@ -70,23 +70,48 @@ adaptadores finos de runtime, sem duplicar regra de negócio:
 - `api/solicitar-cashback.ts` — Vercel / Netlify (opcional, não usado hoje);
 - plugin de desenvolvimento em `vite.config.ts`, para o `npm run dev` com HMR.
 
-## Deploy — Cloudflare Workers + Static Assets
+## Arquitetura de produção
 
-A página é servida pelo Static Assets e **apenas `/api/*` executa o Worker**, graças ao
-`run_worker_first` em [`wrangler.toml`](wrangler.toml). Rotas desconhecidas caem no
-fallback de SPA.
+O frontend e a API vivem em hosts diferentes:
 
-Configuração no painel do Cloudflare (Workers → Settings → Build):
+| Camada | Onde | Endereço |
+| --- | --- | --- |
+| Frontend | Hostinger (estático) | https://kingdomcanteen.cloud |
+| API | Cloudflare Worker | https://kingdom-canteen.f-rodrigues-mg.workers.dev |
+
+O formulário chama `${VITE_API_BASE_URL}/api/solicitar-cashback` — uma requisição
+cross-origin. O Worker responde com CORS restrito às origens do site e a
+localhost; nunca `*`. O preflight `OPTIONS` e todos os status (200, 400, 404,
+405, 413, 429, 500, 502, 503) carregam os cabeçalhos.
+
+`VITE_API_BASE_URL` é embutida na build e **não é segredo** — o valor de produção
+está versionado em `.env.production`. Vazia, as chamadas ficam relativas, o que
+serve ao `npm run dev` e à cópia da página publicada no próprio Worker.
+
+### Publicar o frontend na Hostinger
+
+```bash
+npm ci
+npm run build
+```
+
+Suba o **conteúdo** de `dist/` (não a pasta) em `public_html`, de modo que fique
+`public_html/index.html` e `public_html/assets/…`. O `.htaccess` incluído faz o
+fallback de SPA preservando arquivos reais, além de compressão e cache.
+
+O arquivo `CNAME` gerado em `dist/` serve apenas ao GitHub Pages e pode ser
+descartado no envio para a Hostinger.
+
+### Publicar a API no Cloudflare
 
 ```
 Build command:   npm run build
 Deploy command:  npx wrangler deploy
 ```
 
-Localmente, `npm run workers:dev` roda a página e o endpoint no mesmo runtime da
-produção (`workerd`), e `npm run deploy` publica a partir da sua máquina.
-
-O limite de corpo do Workers acomoda com folga os 10 MB aceitos pelo formulário.
+Localmente, `npm run workers:dev` roda a API no mesmo runtime da produção
+(`workerd`). O Worker é independente da Hostinger: continua funcionando mesmo
+que o site esteja fora do ar, e vice-versa.
 
 ## Estrutura
 

@@ -10,6 +10,7 @@ import {
 import { Icon } from './Icon';
 import { Reveal } from './Reveal';
 import { preSubmitChecklist, site } from '../data/content';
+import { API_SOLICITACAO_URL } from '../config';
 import {
   ALLOWED_EXTENSIONS,
   ALLOWED_MIME_TYPES,
@@ -144,7 +145,7 @@ export function RequestForm() {
       payload.append('consentimento', 'true');
       payload.append('comprovante', file as File);
 
-      const response = await fetch('/api/solicitar-cashback', { method: 'POST', body: payload });
+      const response = await fetch(API_SOLICITACAO_URL, { method: 'POST', body: payload });
       const data = (await response.json().catch(() => ({}))) as {
         ok?: boolean;
         error?: string;
